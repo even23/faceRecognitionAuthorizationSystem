@@ -1,0 +1,78 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Pliki źródłowe">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Pliki nagłówkowe">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Pliki zasobów">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ImageTrainer">
+      <UniqueIdentifier>{963ed4ea-da41-4441-8b70-7c487c14f0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\DAO">
+      <UniqueIdentifier>{bf4b3508-9096-4f4a-858e-340905076c3e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\DAO\User">
+      <UniqueIdentifier>{79b4c5fc-59cc-4877-ab6b-334c20432410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\DAO\Photo">
+      <UniqueIdentifier>{0f2875fe-b278-4d45-8d25-2f7b4a6e6024}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageTrainer.cpp">
+      <Filter>Pliki źródłowe\ImageTrainer</Filter>
+    </ClCompile>
+    <ClCompile Include="UserDAO.cpp">
+      <Filter>Pliki źródłowe\DAO\User</Filter>
+    </ClCompile>
+    <ClCompile Include="User.cpp">
+      <Filter>Pliki źródłowe\DAO\User</Filter>
+    </ClCompile>
+    <ClCompile Include="Photo.cpp">
+      <Filter>Pliki źródłowe\DAO\Photo</Filter>
+    </ClCompile>
+    <ClCompile Include="PhotoDAO.cpp">
+      <Filter>Pliki źródłowe\DAO\Photo</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceRecognitionManager.cpp">
+      <Filter>Pliki źródłowe</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ImageTrainer.h">
+      <Filter>Pliki źródłowe\ImageTrainer</Filter>
+    </ClInclude>
+    <ClInclude Include="UserDAO.h">
+      <Filter>Pliki źródłowe\DAO\User</Filter>
+    </ClInclude>
+    <ClInclude Include="User.h">
+      <Filter>Pliki źródłowe\DAO\User</Filter>
+    </ClInclude>
+    <ClInclude Include="Utils.h">
+      <Filter>Pliki nagłówkowe</Filter>
+    </ClInclude>
+    <ClInclude Include="Photo.h">
+      <Filter>Pliki źródłowe\DAO\Photo</Filter>
+    </ClInclude>
+    <ClInclude Include="PhotoDAO.h">
+      <Filter>Pliki źródłowe\DAO\Photo</Filter>
+    </ClInclude>
+    <ClInclude Include="DAO.h">
+      <Filter>Pliki źródłowe\DAO</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceRecognitionManager.h">
+      <Filter>Pliki źródłowe</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>
