@@ -1,6 +1,7 @@
 #include "PhotoDAO.h"
 
-
+string PhotoDAO::PHOTO_DIR = "images\\";
+string PhotoDAO::PHOTO_FILENAME = "database\\photo.csv";
 
 PhotoDAO::PhotoDAO()
 {

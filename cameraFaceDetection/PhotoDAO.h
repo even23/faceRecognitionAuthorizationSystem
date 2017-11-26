@@ -11,7 +11,8 @@ using namespace std;
 class PhotoDAO : public DAO
 {
 public:
-	string PHOTO_FILENAME = "database\\photo.csv";
+	static string PHOTO_FILENAME;
+	static string PHOTO_DIR;
 	PhotoDAO();
 	~PhotoDAO();
 

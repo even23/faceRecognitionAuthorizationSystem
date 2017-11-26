@@ -16,7 +16,7 @@ class ImageManager
 public:
 	//static string FILE_EXTENSION;
 
-	ImageManager(PhotoDAO* photoDAO, const string& directoryPath = "", Size goalSize = Size(92, 112), bool keepAspectRatio = true)
+	ImageManager(PhotoDAO* photoDAO, const string& directoryPath = PhotoDAO::PHOTO_DIR, Size goalSize = Size(92, 112), bool keepAspectRatio = true)
 		:directoryPath(directoryPath), goalSize(goalSize), keepAspectRatio(keepAspectRatio), photoDAO(photoDAO) {
 		//if the user gave a directory which does not end with a slash, add one
 		//if (this->directoryPath.size() > 0 && (*(--this->directoryPath.end()) != '/' && *(--this->directoryPath.end()) == '\\'))

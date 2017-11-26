@@ -8,8 +8,9 @@ FaceRecognitionManager::FaceRecognitionManager(UserDAO * userDao, PhotoDAO * pho
 	photoDAO = photoDao;
 	images = new vector<Mat>();
 	labels = new vector<int>();
-	read_csv(*images, *labels);
+	//read_csv(*images, *labels);
 	eigenFaceRecognizer = EigenFaceRecognizer::create(10, DBL_MAX);
+	prepareTrainingExamples();
 }
 
 FaceRecognitionManager::~FaceRecognitionManager()
@@ -24,9 +25,14 @@ void FaceRecognitionManager::prepareTrainingExamples()
 	vector<Photo*>* photos = getPhotoDAO()->getPhotos();
 
 	for (vector<Photo*>::iterator photo = photos->begin(); photo != photos->end(); ++photo) {
-		images->push_back(imread((*photo)->getDirectory(), CV_LOAD_IMAGE_GRAYSCALE));
-		labels->push_back((*photo)->getUserId());
+		prepareTrainingExample(*photo);
 	}
+}
+
+void FaceRecognitionManager::prepareTrainingExample(Photo* photo)
+{
+	images->push_back(imread(photo->getDirectory(), CV_LOAD_IMAGE_GRAYSCALE));
+	labels->push_back(photo->getUserId());
 }
 
 void FaceRecognitionManager::trainRecognizer()

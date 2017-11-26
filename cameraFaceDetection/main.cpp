@@ -8,6 +8,7 @@
 #include "FaceRecognitionManager.h"
 #include "UserDAO.h"
 #include "PhotoDAO.h"
+#include "App.h"
 
 #include <iostream>
 #include <stdio.h>
@@ -38,27 +39,10 @@ int main(int argc, const char** argv)
 {
 	VideoCapture capture;
 	Mat frame;
-
-	UserDAO *userDAO = new UserDAO();
-	PhotoDAO *photoDAO = new PhotoDAO();
-
-	User* user = &*(userDAO->getUsers()->begin());
-
-	ImageManager imageManager(photoDAO, "images\\");
-
-	FaceRecognitionManager *faceRecognizerManager = new FaceRecognitionManager(userDAO, photoDAO);
-	faceRecognizerManager->prepareTrainingExamples();
-	
-	//string userId = "2";
-
+	App* app = new App();
+	eyes_cascade.load(eyes_cascade_name);
+	face_cascade.load(face_cascade_name);
 	int c;
-
-	//-- 1. Load the cascades
-	if (!face_cascade.load(face_cascade_name)) { printf("--(!)Error loading\n"); return -1; };
-	if (!eyes_cascade.load(eyes_cascade_name)) { printf("--(!)Error loading\n"); return -1; };
-
-	//-- 2. Read the video stream
-	//capture = cvCaptureFromCAM(CV_CAP_ANY);
 	if (capture.open(0))
 	{
 		do
@@ -74,67 +58,30 @@ int main(int argc, const char** argv)
 				printf(" --(!) No captured frame -- Break!"); break;
 			}
 			c = waitKey(10);
-			vector<Rect> faces;
 			switch (c) {
 				case 'a':
 					capture.read(frame);
-					//savePhoto(frame);
-					face_cascade.detectMultiScale(frame, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
-
-					if (faces.size() == 0)
-					{
-						cout << "No faces found. The detector did not find any faces!";
-					}
-					else
-					{
-						frame = frame.clone();
-						Mat faceRegion;
-						for (vector<Rect>::iterator face = faces.begin(); face != faces.end(); ++face)
-						{
-							faceRegion = frame(*face);
-							if (!imageManager.processAndSaveImage(faceRegion, user)) {
-								cout << "Failed. Could not process and save the image!";
-							}
-						}
-					}
+					app->savePhoto(frame);
 
 					break;
 
-				case 'w':
-					userDAO->write_csv();
-					break;
+//				case 'w':
+//					userDAO->write_csv();
+//					break;
 
 				case 't':
-					faceRecognizerManager->trainRecognizer();
+					app->trainRecognizer();
 					cout << "trained";
 					break;
 
 				case 'p':
 					capture.read(frame);
-					//savePhoto(frame);
-					face_cascade.detectMultiScale(frame, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
-					Mat faceRegion;
-					if (faces.size() == 0)
-					{
-						cout << "No faces found. The detector did not find any faces!";
-					}
-					else
-					{
-						frame = frame.clone();
-						for (vector<Rect>::iterator face = faces.begin(); face != faces.end(); ++face)
-						{
-							faceRegion = frame(*face);
-							faceRegion = imageManager.processImage(faceRegion);
-						}
-					}
-
-					cout << faceRecognizerManager->predict(faceRegion);
+					app->predict(frame);
 					break;
 			}
 		} while ((char)c != 'c');
 	}
-	delete userDAO;
-	delete photoDAO;
+	delete app;
 	return 0;
 }
 

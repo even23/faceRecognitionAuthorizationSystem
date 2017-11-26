@@ -13,9 +13,6 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Pliki źródłowe\ImageTrainer">
-      <UniqueIdentifier>{963ed4ea-da41-4441-8b70-7c487c14f0f5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Pliki źródłowe\DAO">
       <UniqueIdentifier>{bf4b3508-9096-4f4a-858e-340905076c3e}</UniqueIdentifier>
     </Filter>
@@ -30,6 +27,12 @@
     </Filter>
     <Filter Include="Pliki źródłowe\App">
       <UniqueIdentifier>{ee46debc-675e-4373-b6b5-46b116be8749}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\ImageManager">
+      <UniqueIdentifier>{963ed4ea-da41-4441-8b70-7c487c14f0f5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\FaceDetectionManager">
+      <UniqueIdentifier>{8892ef1c-57a9-4cca-ae86-2e649b094dee}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -55,7 +58,10 @@
       <Filter>Pliki źródłowe\App</Filter>
     </ClCompile>
     <ClCompile Include="ImageManager.cpp">
-      <Filter>Pliki źródłowe\ImageTrainer</Filter>
+      <Filter>Pliki źródłowe\ImageManager</Filter>
+    </ClCompile>
+    <ClCompile Include="FaceDetectionManager.cpp">
+      <Filter>Pliki źródłowe\FaceDetectionManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -84,7 +90,10 @@
       <Filter>Pliki źródłowe\App</Filter>
     </ClInclude>
     <ClInclude Include="ImageManager.h">
-      <Filter>Pliki źródłowe\ImageTrainer</Filter>
+      <Filter>Pliki źródłowe\ImageManager</Filter>
+    </ClInclude>
+    <ClInclude Include="FaceDetectionManager.h">
+      <Filter>Pliki źródłowe\FaceDetectionManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

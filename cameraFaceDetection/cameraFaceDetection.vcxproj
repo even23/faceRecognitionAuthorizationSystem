@@ -114,6 +114,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="App.cpp" />
+    <ClCompile Include="FaceDetectionManager.cpp" />
     <ClCompile Include="FaceRecognitionManager.cpp" />
     <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="main.cpp" />
@@ -125,6 +126,7 @@
   <ItemGroup>
     <ClInclude Include="App.h" />
     <ClInclude Include="DAO.h" />
+    <ClInclude Include="FaceDetectionManager.h" />
     <ClInclude Include="FaceRecognitionManager.h" />
     <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Photo.h" />

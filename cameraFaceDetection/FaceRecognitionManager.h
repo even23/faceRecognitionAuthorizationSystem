@@ -20,6 +20,7 @@ public:
 	~FaceRecognitionManager();
 
 	void prepareTrainingExamples();
+	void prepareTrainingExample(Photo* photo);
 	
 	vector<Mat>* getImages() { return images; }
 	vector<int>* getLabels() { return labels; }
