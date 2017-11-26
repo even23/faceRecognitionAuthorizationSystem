@@ -25,13 +25,16 @@
     <Filter Include="Pliki źródłowe\DAO\Photo">
       <UniqueIdentifier>{0f2875fe-b278-4d45-8d25-2f7b4a6e6024}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Pliki źródłowe\FaceRecognitionManager">
+      <UniqueIdentifier>{5e4c4b2f-fa6a-4fb8-a17d-c95a36dd0e82}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Pliki źródłowe\App">
+      <UniqueIdentifier>{ee46debc-675e-4373-b6b5-46b116be8749}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Pliki źródłowe</Filter>
-    </ClCompile>
-    <ClCompile Include="ImageTrainer.cpp">
-      <Filter>Pliki źródłowe\ImageTrainer</Filter>
     </ClCompile>
     <ClCompile Include="UserDAO.cpp">
       <Filter>Pliki źródłowe\DAO\User</Filter>
@@ -46,13 +49,16 @@
       <Filter>Pliki źródłowe\DAO\Photo</Filter>
     </ClCompile>
     <ClCompile Include="FaceRecognitionManager.cpp">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\FaceRecognitionManager</Filter>
+    </ClCompile>
+    <ClCompile Include="App.cpp">
+      <Filter>Pliki źródłowe\App</Filter>
+    </ClCompile>
+    <ClCompile Include="ImageManager.cpp">
+      <Filter>Pliki źródłowe\ImageTrainer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ImageTrainer.h">
-      <Filter>Pliki źródłowe\ImageTrainer</Filter>
-    </ClInclude>
     <ClInclude Include="UserDAO.h">
       <Filter>Pliki źródłowe\DAO\User</Filter>
     </ClInclude>
@@ -72,7 +78,13 @@
       <Filter>Pliki źródłowe\DAO</Filter>
     </ClInclude>
     <ClInclude Include="FaceRecognitionManager.h">
-      <Filter>Pliki źródłowe</Filter>
+      <Filter>Pliki źródłowe\FaceRecognitionManager</Filter>
+    </ClInclude>
+    <ClInclude Include="App.h">
+      <Filter>Pliki źródłowe\App</Filter>
+    </ClInclude>
+    <ClInclude Include="ImageManager.h">
+      <Filter>Pliki źródłowe\ImageTrainer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

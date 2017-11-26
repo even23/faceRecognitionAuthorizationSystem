@@ -9,10 +9,12 @@ using namespace std;
 class Photo
 {
 public:
+	static string FILE_EXTENSION;
+
 	Photo(int id, int userId) :
 		id(id), userId(userId) {
 		stringstream ss;
-		ss << "images\\" << userId << "\\" << id << ".png";
+		ss << "images\\" << userId << "\\" << id << FILE_EXTENSION;
 		directory = ss.str();
 	}
 	~Photo();

@@ -113,8 +113,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="App.cpp" />
     <ClCompile Include="FaceRecognitionManager.cpp" />
-    <ClCompile Include="ImageTrainer.cpp" />
+    <ClCompile Include="ImageManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Photo.cpp" />
     <ClCompile Include="PhotoDAO.cpp" />
@@ -122,9 +123,10 @@
     <ClCompile Include="UserDAO.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="App.h" />
     <ClInclude Include="DAO.h" />
     <ClInclude Include="FaceRecognitionManager.h" />
-    <ClInclude Include="ImageTrainer.h" />
+    <ClInclude Include="ImageManager.h" />
     <ClInclude Include="Photo.h" />
     <ClInclude Include="PhotoDAO.h" />
     <ClInclude Include="User.h" />

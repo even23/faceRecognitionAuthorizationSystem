@@ -1,5 +1,6 @@
 #pragma once
 #include "Photo.h"
+#include "User.h"
 #include "DAO.h"
 #include <vector>
 #include <fstream>
@@ -18,8 +19,12 @@ public:
 	void write_csv(char separator = ';');
 	string getCsvRow(Photo photo, char separator);
 
-	vector<Photo>* getPhotos() { return photos; }
+	vector<Photo*>* getPhotos() { return photos; }
+
+	void addPhoto(int);
+	string addPhoto(User*);
 
 private:
-	vector<Photo>* photos;
+	int nextPhotoId;
+	vector<Photo*>* photos;
 };

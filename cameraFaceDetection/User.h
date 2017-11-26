@@ -20,6 +20,9 @@ public:
 	string getLogin() { return login; }
 	string getPassword() { return password; }
 	int getPhotos() { return photos; }
+	int addPhoto() {
+		return photos++;
+	}
 
 private:
 	int id;
