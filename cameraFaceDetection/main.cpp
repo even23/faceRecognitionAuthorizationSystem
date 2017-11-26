@@ -1,9 +1,11 @@
-#include "opencv2/objdetect/objdetect.hpp"
-#include "opencv2/highgui/highgui.hpp"
-#include "opencv2/imgproc/imgproc.hpp"
+#include "opencv2/core.hpp"
 #include "opencv2/face.hpp"
+#include "opencv2/highgui.hpp"
+#include "opencv2/imgproc.hpp"
+#include "opencv2/objdetect.hpp"
 
-#include "ImageTrainer.h"
+#include "ImageManager.h"
+#include "FaceRecognitionManager.h"
 #include "UserDAO.h"
 #include "PhotoDAO.h"
 
@@ -12,6 +14,7 @@
 
 using namespace std;
 using namespace cv;
+using namespace face;
 
 /** Function Headers */
 void detectAndDisplay(Mat frame);
@@ -35,11 +38,19 @@ int main(int argc, const char** argv)
 {
 	VideoCapture capture;
 	Mat frame;
-	ImageTrainer imageTrainer(Size(SIZE, SIZE), false, "images\\");
 
 	UserDAO *userDAO = new UserDAO();
 	PhotoDAO *photoDAO = new PhotoDAO();
+
+	User* user = &*(userDAO->getUsers()->begin());
+
+	ImageManager imageManager(photoDAO, "images\\");
+
+	FaceRecognitionManager *faceRecognizerManager = new FaceRecognitionManager(userDAO, photoDAO);
+	faceRecognizerManager->prepareTrainingExamples();
 	
+	//string userId = "2";
+
 	int c;
 
 	//-- 1. Load the cascades
@@ -81,8 +92,7 @@ int main(int argc, const char** argv)
 						for (vector<Rect>::iterator face = faces.begin(); face != faces.end(); ++face)
 						{
 							faceRegion = frame(*face);
-
-							if (!imageTrainer.processAndSaveImage(faceRegion, "1", "1")) {
+							if (!imageManager.processAndSaveImage(faceRegion, user)) {
 								cout << "Failed. Could not process and save the image!";
 							}
 						}
@@ -92,6 +102,33 @@ int main(int argc, const char** argv)
 
 				case 'w':
 					userDAO->write_csv();
+					break;
+
+				case 't':
+					faceRecognizerManager->trainRecognizer();
+					cout << "trained";
+					break;
+
+				case 'p':
+					capture.read(frame);
+					//savePhoto(frame);
+					face_cascade.detectMultiScale(frame, faces, 1.1, 2, 0 | CV_HAAR_SCALE_IMAGE, Size(30, 30));
+					Mat faceRegion;
+					if (faces.size() == 0)
+					{
+						cout << "No faces found. The detector did not find any faces!";
+					}
+					else
+					{
+						frame = frame.clone();
+						for (vector<Rect>::iterator face = faces.begin(); face != faces.end(); ++face)
+						{
+							faceRegion = frame(*face);
+							faceRegion = imageManager.processImage(faceRegion);
+						}
+					}
+
+					cout << faceRecognizerManager->predict(faceRegion);
 					break;
 			}
 		} while ((char)c != 'c');

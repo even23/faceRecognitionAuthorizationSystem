@@ -4,10 +4,14 @@
 
 PhotoDAO::PhotoDAO()
 {
-	photos = new vector<Photo>();
+	photos = new vector<Photo*>();
 	filename = PHOTO_FILENAME;
 	isModified = false;
 	read_csv();
+	nextPhotoId = 1;
+	if (photos->size() > 0) {
+		nextPhotoId = photos->back()->getId() + 1;
+	}
 }
 
 
@@ -31,7 +35,7 @@ void PhotoDAO::read_csv(char separator) {
 		stringstream liness(line);
 		getline(liness, id, separator);
 		getline(liness, userId, separator);
-		photos->push_back(Photo(atoi(id.c_str()), atoi(userId.c_str())));
+		photos->push_back(new Photo(atoi(id.c_str()), atoi(userId.c_str())));
 	}
 	file.close();
 }
@@ -40,8 +44,8 @@ void PhotoDAO::write_csv(char separator)
 {
 	ofstream file(filename);
 	file << headers << endl;
-	for (vector<Photo>::iterator user = photos->begin(); user != photos->end(); ++user) {
-		file << getCsvRow(*user, separator) << endl;
+	for (vector<Photo*>::iterator photo = photos->begin(); photo != photos->end(); ++photo) {
+		file << getCsvRow(**photo, separator) << endl;
 	}
 	file.close();
 }
@@ -52,4 +56,16 @@ string PhotoDAO::getCsvRow(Photo photo, char separator)
 	result << photo.getId() << separator
 		<< photo.getUserId();
 	return result.str();
+}
+
+//void PhotoDAO::addPhoto(int userId)
+//{
+//	photos->push_back(new Photo(nextPhotoId++, userId));
+//}
+
+string PhotoDAO::addPhoto(User* user)
+{
+	photos->push_back(new Photo(nextPhotoId, user->getId()));
+	user->addPhoto();
+	return to_string(nextPhotoId++) + Photo::FILE_EXTENSION;
 }
