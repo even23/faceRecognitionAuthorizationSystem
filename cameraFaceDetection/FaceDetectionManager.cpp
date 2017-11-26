@@ -16,8 +16,9 @@ FaceDetectionManager::FaceDetectionManager()
 
 FaceDetectionManager::~FaceDetectionManager()
 {
-	delete faceCascade;
-	delete eyesCascade;
+	//delete faceCascade;
+	//delete eyesCascade;
+	delete faces;
 }
 
 vector<Rect>* FaceDetectionManager::detectFaces(Mat frame)

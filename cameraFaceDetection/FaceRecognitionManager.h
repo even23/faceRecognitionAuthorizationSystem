@@ -36,5 +36,7 @@ private:
 	UserDAO *userDAO;
 	PhotoDAO *photoDAO;
 	Ptr<EigenFaceRecognizer> eigenFaceRecognizer;
+	Ptr<FisherFaceRecognizer> fisherFaceRecognizer;
+	Ptr<LBPHFaceRecognizer> LBPHFaceRecognizer;
 };
 

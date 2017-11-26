@@ -11,13 +11,15 @@ FaceRecognitionManager::FaceRecognitionManager(UserDAO * userDao, PhotoDAO * pho
 	//read_csv(*images, *labels);
 	eigenFaceRecognizer = EigenFaceRecognizer::create(10, DBL_MAX);
 	prepareTrainingExamples();
+	fisherFaceRecognizer = FisherFaceRecognizer::create();
+	LBPHFaceRecognizer = LBPHFaceRecognizer::create(1, 8, 8, 8, DBL_MAX);
 }
 
 FaceRecognitionManager::~FaceRecognitionManager()
 {
 	delete images;
 	delete labels;
-	delete eigenFaceRecognizer;
+//	delete eigenFaceRecognizer;
 }
 
 void FaceRecognitionManager::prepareTrainingExamples()
@@ -38,13 +40,18 @@ void FaceRecognitionManager::prepareTrainingExample(Photo* photo)
 void FaceRecognitionManager::trainRecognizer()
 {
 	eigenFaceRecognizer->train(*images, *labels);
+	fisherFaceRecognizer->train(*images, *labels);
+	LBPHFaceRecognizer->train(*images, *labels);
+
 }
 
 int FaceRecognitionManager::predict(Mat image)
 {
 	int predicted_label = -1;
 	double predicted_confidence = 0.0;
-	eigenFaceRecognizer->predict(image, predicted_label, predicted_confidence);
+	//eigenFaceRecognizer->predict(image, predicted_label, predicted_confidence);
+	//fisherFaceRecognizer->predict(image, predicted_label, predicted_confidence);
+	LBPHFaceRecognizer->predict(image, predicted_label, predicted_confidence);
 	return predicted_label;
 }
 
