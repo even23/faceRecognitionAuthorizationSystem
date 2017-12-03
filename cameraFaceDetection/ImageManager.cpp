@@ -51,7 +51,10 @@ Mat ImageManager::processImage(Mat& image)
 		resize(image, resized, goalSize);
 
 	Mat grayFrame;
-	cvtColor(resized, grayFrame, CV_BGR2GRAY);
+	if (resized.channels() != 1)
+		cvtColor(resized, grayFrame, CV_BGR2GRAY);
+	else
+		grayFrame = resized;
 	equalizeHist(grayFrame, grayFrame);
 	//TODO: better processing in here
 

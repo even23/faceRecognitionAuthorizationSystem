@@ -1,8 +1,9 @@
+#pragma once
+
 #include "FaceRecognitionManager.h"
 #include "FaceDetectionManager.h"
 #include "ImageManager.h"
 
-#pragma once
 class App
 {
 public:

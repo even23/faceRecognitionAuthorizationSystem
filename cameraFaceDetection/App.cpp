@@ -6,9 +6,9 @@ App::App()
 {
 	userDao = new UserDAO();
 	photoDao = new PhotoDAO();
-	faceDetectionManager = new FaceDetectionManager();
-	faceRecognitionManager = new FaceRecognitionManager(userDao, photoDao);
 	imageManager = new ImageManager(photoDao);
+	faceDetectionManager = new FaceDetectionManager();
+	faceRecognitionManager = new FaceRecognitionManager(userDao, photoDao, imageManager);
 	activeUser = &*(userDao->getUsers()->begin());
 }
 
@@ -17,6 +17,7 @@ App::~App()
 {
 	delete faceRecognitionManager;
 	delete faceDetectionManager;
+	delete imageManager;
 	delete photoDao;
 	delete userDao;
 }

@@ -1,3 +1,5 @@
+#pragma once
+
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -5,18 +7,19 @@
 
 #include "UserDAO.h"
 #include "PhotoDAO.h"
+#include "Utils.h"
+#include "ImageManager.h"
 
 using namespace std;
 using namespace cv;
 using namespace face;
 
-#pragma once
 class FaceRecognitionManager
 {
 public:
 	static string TRAINING_FILENAME;
 
-	FaceRecognitionManager(UserDAO* userDao, PhotoDAO* photoDao);
+	FaceRecognitionManager(UserDAO* userDao, PhotoDAO* photoDao, ImageManager* imageManager);
 	~FaceRecognitionManager();
 
 	void prepareTrainingExamples();
@@ -35,6 +38,7 @@ private:
 	vector<int>* labels;
 	UserDAO *userDAO;
 	PhotoDAO *photoDAO;
+	ImageManager *imageManager;
 	Ptr<EigenFaceRecognizer> eigenFaceRecognizer;
 	Ptr<FisherFaceRecognizer> fisherFaceRecognizer;
 	Ptr<LBPHFaceRecognizer> LBPHFaceRecognizer;
