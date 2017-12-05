@@ -2,6 +2,32 @@
 
 string FaceRecognitionManager::TRAINING_FILENAME = "database\\training.csv";
 
+string getCsvRow(Photo photo, char separator)
+{
+	stringstream result;
+	result << photo.getId() << separator
+		<< photo.getUserId();
+	return result.str();
+}
+
+void FaceRecognitionManager::computeResults(Ptr<StandardCollector> collector1) {
+	double min, mediana, threshhold;
+	int label, risk, miss;
+	vector<pair<int, double>> res = collector1->getResults(true);
+	label = res.at(0).first;
+	min = res.at(0).second;
+	mediana = res.at(res.size() / 2).second;
+	for (vector<pair<int, double>>::iterator pair = res.begin(); pair != res.end(); ++pair) {
+		if (pair->first != label) {
+			threshhold = pair->second;
+			risk = pair - res.begin();
+			miss = pair->first;
+			break;
+		}
+	}
+	file << label << ";" << min << ";" << mediana << ";" << risk << ";" << threshhold << ";" << miss << endl;
+}
+
 FaceRecognitionManager::FaceRecognitionManager(UserDAO * userDao, PhotoDAO * photoDao, ImageManager *_imageManager)
 {
 	userDAO = userDao;
@@ -9,6 +35,10 @@ FaceRecognitionManager::FaceRecognitionManager(UserDAO * userDao, PhotoDAO * pho
 	imageManager = _imageManager;
 	images = new vector<Mat>();
 	labels = new vector<int>();
+
+	testImages = new vector<Mat>();
+	testLabels = new vector<int>();
+
 	read_csv(*images, *labels);
 	eigenFaceRecognizer = EigenFaceRecognizer::create(100, DBL_MAX);
 	prepareTrainingExamples();
@@ -34,8 +64,11 @@ void FaceRecognitionManager::prepareTrainingExamples()
 
 void FaceRecognitionManager::prepareTrainingExample(Photo* photo)
 {
+	Mat image = imread(photo->getDirectory(), CV_LOAD_IMAGE_GRAYSCALE);
 	images->push_back(imread(photo->getDirectory(), CV_LOAD_IMAGE_GRAYSCALE));
 	labels->push_back(photo->getUserId());
+	image = imageManager->tan_triggs_preprocessing(image);
+	normalize(image, image, 0.0, 1.0, CV_MINMAX, CV_64F);
 }
 
 void FaceRecognitionManager::trainRecognizer()
@@ -50,15 +83,48 @@ int FaceRecognitionManager::predict(Mat image)
 {
 	int predicted_label = -1;
 	double predicted_confidence = 0.0;
-	Ptr<PredictCollector> collector1 = new StandardCollector();
-	Ptr<PredictCollector> collector2 = new StandardCollector();
-	Ptr<PredictCollector> collector3 = new StandardCollector();
+	Ptr<StandardCollector> collector1 = new StandardCollector();
+	Ptr<StandardCollector> collector2 = new StandardCollector();
+	Ptr<StandardCollector> collector3 = new StandardCollector();
+
+	// rand from images
+	//output = (rand() % static_cast<int>(images->size())) + 1;
+	//testImage = new Mat(images->at(output));
+	//label = labels->at(output);
+
+	// rand from testimages
+	//output = (rand() % static_cast<int>(testImages->size())) + 1;
+	//testImage = new Mat(testImages->at(output));
+	//label = testLabels->at(output);
+
+	testImage = new Mat(image);
+
+	//preprocessing
+//	*testImage = imageManager->tan_triggs_preprocessing(*testImage);
+	//normalize(*testImage, *testImage, 0.0, 1.0, CV_MINMAX, CV_64F);
+	//Mat noise = Mat(testImage->size(), testImage->type());
+	//cv::randn(noise, 0, 0.1);
+	//*testImage = *testImage + noise;
+	//normalize(*testImage, *testImage, 0.0, 1.0, CV_MINMAX, CV_64F);
+	//testImage->convertTo(*testImage, CV_8U, 255, 0);
+
+	eigenFaceRecognizer->predict(*testImage, collector1);
+	fisherFaceRecognizer->predict(*testImage, collector2);
+	LBPHFaceRecognizer->predict(*testImage, collector3);
+	vector<pair<int, double>> res1 = collector1->getResults(true);
+	computeResults(collector1);
+	vector<pair<int, double>> res2 = collector2->getResults(true);
+	computeResults(collector2);
+	vector<pair<int, double>> res3 = collector3->getResults(true);
+	computeResults(collector3);
+
 	//eigenFaceRecognizer->predict(image, predicted_label, predicted_confidence);
 	//fisherFaceRecognizer->predict(image, predicted_label, predicted_confidence);
 	//LBPHFaceRecognizer->predict(image, predicted_label, predicted_confidence);
-	eigenFaceRecognizer->predict(image, collector1);
-	fisherFaceRecognizer->predict(image, collector2);
-	LBPHFaceRecognizer->predict(image, collector3);
+
+	//eigenFaceRecognizer->predict(image, collector1);
+	//fisherFaceRecognizer->predict(image, collector2);
+	//LBPHFaceRecognizer->predict(image, collector3);
 
 	//Mat eigenvalues = eigenFaceRecognizer->getEigenValues();
 	//// And we can do the same to display the Eigenvectors (read Eigenfaces):
@@ -114,6 +180,7 @@ void FaceRecognitionManager::read_csv(vector<Mat>& images, vector<int>& labels, 
 		CV_Error(Error::StsBadArg, error_message);
 	}
 	string line, path, classlabel;
+	int a = 0;
 	while (getline(file, line)) {
 		stringstream liness(line);
 		getline(liness, path, separator);
@@ -121,8 +188,26 @@ void FaceRecognitionManager::read_csv(vector<Mat>& images, vector<int>& labels, 
 		if (!path.empty() && !classlabel.empty()) {
 			Mat image = imread(path, 0);
 			image = imageManager->processImage(image);
-			images.push_back(image);
-			labels.push_back(atoi(classlabel.c_str()));
+			if (((a % 10) > 2) && ((a % 10) <= 5)) {
+				images.push_back(image);
+				labels.push_back(atoi(classlabel.c_str()));
+			}
+			else if (a % 10 == 2) {
+				testImages->push_back(image);
+				testLabels->push_back(atoi(classlabel.c_str()));
+			}
+			a++;
 		}
 	}
+}
+
+void FaceRecognitionManager::test()
+{
+	file.open("test\\test3.csv");
+	file << "40x3 + 40x1, no noise, no normalization, no tran_triggs" << endl;
+	file << "Wynik;min;mediana;risk;tH;miss" << endl;
+	for (vector<Mat>::iterator image = testImages->begin(); image != testImages->end(); ++image) {
+		predict(*image);
+	}
+	file.close();
 }

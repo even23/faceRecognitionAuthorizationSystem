@@ -14,6 +14,7 @@ public:
 	bool savePhoto(Mat frame);
 	void trainRecognizer();
 	bool predict(Mat frame);
+	void test();
 
 private:
 	VideoCapture capture;

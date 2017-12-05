@@ -33,6 +33,12 @@ public:
 	int predict(Mat);
 	void read_csv(vector<Mat>& images, vector<int>& labels, const string& filename = TRAINING_FILENAME, char separator = ';');
 
+	void test();
+	void computeResults(Ptr<StandardCollector> collector1);
+
+	vector<Mat>* testImages;
+	vector<int>* testLabels;
+	ofstream file;
 private:
 	vector<Mat>* images;
 	vector<int>* labels;
@@ -42,5 +48,11 @@ private:
 	Ptr<EigenFaceRecognizer> eigenFaceRecognizer;
 	Ptr<FisherFaceRecognizer> fisherFaceRecognizer;
 	Ptr<LBPHFaceRecognizer> LBPHFaceRecognizer;
+
+	int output;
+	Mat *testImage;
+	int label;
+
+
 };
 

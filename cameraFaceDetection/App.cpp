@@ -75,3 +75,7 @@ bool App::predict(Mat frame)
 	cout << faceRecognitionManager->predict(faceRegion);
 	return false;
 }
+
+void App::test() {
+	faceRecognitionManager->test();
+}

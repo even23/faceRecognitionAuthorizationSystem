@@ -74,6 +74,10 @@ int main(int argc, const char** argv)
 					cout << "trained";
 					break;
 
+				case 'e':
+					app->test();
+					break;
+
 				case 'p':
 					capture.read(frame);
 					app->predict(frame);
